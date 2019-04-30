@@ -2,6 +2,7 @@
 
 import random
 
+WORD_FILE = 'words.txt'
 
 class Game(object):
 
@@ -81,7 +82,7 @@ def get_guess(self):
 
         # Print the amount of dashes and guesses left
         print(dashes)
-        print(str(guesses_left))
+        print("Guess(es) left: " + str(guesses_left))
 
         # Ask for input
         guess = input("Guess:")
@@ -98,6 +99,7 @@ def get_guess(self):
         # the guess is in the secret word
         elif guess in secret_word:
             print("That letter is in the secret word!")
+            print(self._hangman[wrong_count] + "\n")
             dashes = update_dashes(secret_word, dashes, guess)
 
         else:
@@ -128,7 +130,12 @@ def update_dashes(secret, cur_dash, rec_guess):
     
     return result
 
-words = ["bob", "baab", "burp", "apple"]
+# word list
+# words = ["bob", "baab", "burp", "apple"]
+wordlist = open(WORD_FILE, 'r').readlines()
+words = [word.strip() for word in wordlist]
 
+# random for a word in the list above
 secret_word = random.choice(words)
+# game
 get_guess(Game)

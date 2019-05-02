@@ -78,7 +78,7 @@ def get_guess(self):
     guesses_left = 6
     wrong_count = 0
 
-    while guesses_left > -1 and not dashes == secret_word:
+    while guesses_left > 0 and not dashes == secret_word:
 
         # Print the amount of dashes and guesses left
         print(dashes)
@@ -109,7 +109,7 @@ def get_guess(self):
             guesses_left -= 1
 
     # User loses
-    if guesses_left < 0:
+    if guesses_left < 1:
         print("You lose. The word was: " + str(secret_word))
 
     # User wins

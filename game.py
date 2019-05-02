@@ -87,7 +87,10 @@ def get_guess(self):
         # Ask for input
         guess = input("Guess:")
 
-        # Check if user guess the whole word
+        # Check for number input
+        num_contain = re.search("\d+", guess)
+        
+        # Check if user guess the whole word    
         if guess == secret_word:
             print("Congrats! You win. You just guessed the whole word!")
             break
@@ -95,6 +98,10 @@ def get_guess(self):
         # Invalid inputs
         elif len(guess) != 1:
             print("Your guess must have exactly one character!")
+        
+        #No Number input     
+        elif num_contain:
+            print("Number is not allowed")
 
         # the guess is in the secret word
         elif guess in secret_word:

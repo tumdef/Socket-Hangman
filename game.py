@@ -72,6 +72,10 @@ class Game(object):
             ---------
 """]
 
+resetOption = """
+Play again ?[y/n]
+"""
+
 
 def get_guess(self):
     dashes = "-" * len(secret_word)
@@ -140,12 +144,26 @@ def update_dashes(secret, cur_dash, rec_guess):
     
     return result
 
-# word list
-# words = ["bob", "baab", "burp", "apple"]
-wordlist = open(WORD_FILE, 'r').readlines()
-words = [word.strip() for word in wordlist]
+if __name__ == "__main__" :
+    # word list
+    # words = ["bob", "baab", "burp", "apple"]
+    wordlist = open(WORD_FILE, 'r').readlines()
+    words = [word.strip() for word in wordlist]
 
-# random for a word in the list above
-secret_word = random.choice(words)
-# game
-get_guess(Game)
+    # random for a word in the list above
+    secret_word = random.choice(words)
+    # game
+    get_guess(Game)
+
+    while True :
+        tmp = input(resetOption)
+        if tmp == "n":
+            print("BYE")
+            break
+        elif tmp == "y":
+            secret_word = random.choice(words)
+            print("Let's play again!")
+            get_guess(Game)
+        else :
+            print("Input only y or n \n")
+

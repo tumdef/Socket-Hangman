@@ -78,7 +78,7 @@ def get_guess(self):
     dashes = "-" * len(secret_word)
     guesses_left = 6
     wrong_count = 0
-
+    print(self._hangman[wrong_count] + "\n")
     while guesses_left > 0 and not dashes == secret_word:
 
         # Print the amount of dashes and guesses left
@@ -111,10 +111,10 @@ def get_guess(self):
             dashes = update_dashes(secret_word, dashes, guess)
 
         else:
-            print("That letter is not in the secret word!\n")
-            print(self._hangman[wrong_count] + "\n")
             wrong_count += 1
             guesses_left -= 1
+            print("That letter is not in the secret word!\n")
+            print(self._hangman[wrong_count] + "\n")
 
     # User loses
     if guesses_left < 1:

@@ -93,15 +93,18 @@ def get_guess(self):
         # Check if user guess the whole word    
         if guess == secret_word:
             print("Congrats! You win. You just guessed the whole word!")
+            print(self._hangman[wrong_count] + "\n")
             break
 
         # Invalid inputs
         elif len(guess) != 1:
             print("Your guess must have exactly one character!")
+            print(self._hangman[wrong_count] + "\n")
         
         # input only alphabet     
         elif not guess.isalpha():
             print("Your guess can only contains alphabet!")
+            print(self._hangman[wrong_count] + "\n")
 
         # the guess is in the secret word
         elif guess in secret_word:

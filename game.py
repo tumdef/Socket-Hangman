@@ -6,7 +6,6 @@ import re
 WORD_FILE = 'words.txt'
 
 class Game(object):
-
     _hangman = [
         """
             -----
@@ -100,9 +99,9 @@ def get_guess(self):
         elif len(guess) != 1:
             print("Your guess must have exactly one character!")
         
-        #No Number input     
-        elif num_contain:
-            print("Number is not allowed")
+        # input only alphabet     
+        elif not guess.isalpha():
+            print("Your guess can only contains alphabet!")
 
         # the guess is in the secret word
         elif guess in secret_word:

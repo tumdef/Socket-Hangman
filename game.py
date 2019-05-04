@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 
 import random
-import re
 
 WORD_FILE = 'words.txt'
 
@@ -91,9 +90,6 @@ def get_guess(self):
 
         # Ask for input
         guess = input("Guess:")
-
-        # Check for number input
-        num_contain = re.search("\d+", guess)
         
         # Check if user guess the whole word    
         if guess == secret_word:
@@ -164,7 +160,7 @@ if __name__ == "__main__" :
     get_guess(Game)
 
     while True :
-        tmp = input(resetOption)
+        tmp = input(resetOption).lower()
         if tmp == "n":
             print("BYE")
             break

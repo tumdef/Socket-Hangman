@@ -5,6 +5,7 @@ import random
 WORD_FILE = 'words.txt'
 
 class Game(object):
+    best_left = 0
     _hangman = [
         """
             -----
@@ -72,8 +73,7 @@ class Game(object):
 """]
 
 resetOption = """
-Play again ?[y/n]
-"""
+Play again ?[y/n]"""
 
 
 def get_guess(self):
@@ -86,6 +86,7 @@ def get_guess(self):
 
         # Print the amount of dashes and guesses left
         print(dashes)
+        print("Best left: " + str(self.best_left))
         print("Guess(es) left: " + str(guesses_left))
 
         # Ask for input
@@ -133,6 +134,9 @@ def get_guess(self):
     # User wins
     else:
         print("Congrats! You win. The word was: " + str(secret_word))
+        if self.best_left < guesses_left:
+            self.best_left = guesses_left
+            print("Congrats! You got the new best. The best is: " + str(self.best_left))
 
 # updates the string of dashes
 def update_dashes(secret, cur_dash, rec_guess):
@@ -162,11 +166,12 @@ if __name__ == "__main__" :
     while True :
         tmp = input(resetOption).lower()
         if tmp == "n":
+            print("Your best is: " + str(Game.best_left))
             print("BYE")
             break
         elif tmp == "y":
             secret_word = random.choice(words)
-            print("Let's play again!")
+            print("\n\n\n"+"Let's play again!\n")
             get_guess(Game)
         else :
             print("Input only y or n \n")

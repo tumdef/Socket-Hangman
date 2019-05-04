@@ -78,6 +78,7 @@ def get_guess(self):
     dashes = "-" * len(secret_word)
     guesses_left = 6
     wrong_count = 0
+    letter_storage = []
     print(self._hangman[wrong_count] + "\n")
     while guesses_left > 0 and not dashes == secret_word:
 
@@ -104,6 +105,10 @@ def get_guess(self):
         elif num_contain:
             print("Number is not allowed")
 
+        #checking if letter has been already used
+        elif guess in letter_storage:
+            print("You have already guessed that letter!")
+
         # the guess is in the secret word
         elif guess in secret_word:
             print("That letter is in the secret word!")
@@ -115,6 +120,9 @@ def get_guess(self):
             guesses_left -= 1
             print("That letter is not in the secret word!\n")
             print(self._hangman[wrong_count] + "\n")
+
+        # add guessed letter to a list
+        letter_storage.append(guess)
 
     # User loses
     if guesses_left < 1:

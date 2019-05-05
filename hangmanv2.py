@@ -110,8 +110,7 @@ class Game(object):
             elif not guess.isalpha():
                 print("Your guess can only contains alphabet!")
                 print(self._hangman[wrong_count] + "\n")
-      
-            guess
+
             for d in range(len(guess)):
 
                 #checking if letter has been already used

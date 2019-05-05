@@ -136,6 +136,11 @@ class GAME:
                 # add guessed letter to a list
                 letter_storage.append(guess[d])
 
+                if guesses_left < 1:
+                    break
+            if guesses_left < 1:
+                    break
+                    
         #RESETGAME
         if guess == "resetgame":
             print("####### RESET GAME #######")

@@ -124,12 +124,8 @@ class GAME:
                     correct_cnt += 1
                     print("That letter ( "+guess[d]+" ) is in the secret word!")
                     print(self._hangman[wrong_count] + "\n")
-<<<<<<< HEAD
-                    dashes = GAME.update_dashes(self,secret_word, dashes, guess[d])
-=======
 
-                    dashes = Game.update_dashes(self,secret_word, dashes, guess[d])
->>>>>>> core-game
+                    dashes = GAME.update_dashes(self,secret_word, dashes, guess[d])
 
                 else:
                     wrong_count += 1
@@ -138,8 +134,7 @@ class GAME:
                     print(self._hangman[wrong_count] + "\n")
                 
                 # add guessed letter to a list
-                if guess[d] not in letter_storage:
-                    letter_storage.append(guess[d])
+                letter_storage.append(guess[d])
 
         #RESETGAME
         if guess == "resetgame":

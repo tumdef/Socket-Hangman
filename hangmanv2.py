@@ -1,7 +1,8 @@
 import random
 from collections import Counter
 
-class Game(object):
+class GAME:
+    _userName = ""
     _best_score = 0
     _hangman = [
         """
@@ -87,7 +88,7 @@ class Game(object):
 
             # Print the amount of dashes and guesses left
             print(dashes)
-            print("Best score: " + str(self._best_score))
+            print("Best score("+self._userName+"): " + str(self._best_score))
             print("Guess(es) left: " + str(guesses_left))
             # Ask for input
             guess = input("Guess (To reset type resetgame): ").lower()
@@ -122,7 +123,7 @@ class Game(object):
                     correct_cnt += 1
                     print("That letter ( "+guess[d]+" ) is in the secret word!")
                     print(self._hangman[wrong_count] + "\n")
-                    dashes = Game.update_dashes(self,secret_word, dashes, guess[d])
+                    dashes = GAME.update_dashes(self,secret_word, dashes, guess[d])
 
                 else:
                     wrong_count += 1
@@ -144,10 +145,27 @@ class Game(object):
         # User wins
         else:
             print("Congrats! You win. The word was: " + str(secret_word))
-            print("Score : "+ str(correct_cnt + guesses_left))
+            print("Score ("+self._userName+"): "+ str(correct_cnt + guesses_left))
             if self._best_score < (correct_cnt + guesses_left):
                 self._best_score = (correct_cnt + guesses_left)
                 print("Congrats! You got the new best. The best score is: " + str(self._best_score))
+
+    def __init__(self,user,score):
+        self._userName = user
+        self._best_score = score
+        GAME.newGame(self)
+        while True:
+            tmp = input("Play again ?[y/n]: ").lower()
+            if tmp == "n":
+                print("Your best left is: " + str(self._best_score))
+                print("BYE "+self._userName)
+                break
+            elif tmp == "y":
+                print("\n\n\n"+"Let's play again!\n")
+                GAME(self._userName,self._best_score)
+            else :
+                print("Input only y,Y or n,N \n")
+            exit()
 
 WORD_FILE = 'words.txt'
 if __name__ == "__main__" :
@@ -155,15 +173,4 @@ if __name__ == "__main__" :
     # words = ["bob", "baab", "burp", "apple"]
     wordlist = open(WORD_FILE, 'r').readlines()
     words = [word.strip() for word in wordlist]
-    Game.newGame(Game)
-    while True:
-        tmp = input("Play again ?[y/n]: ").lower()
-        if tmp == "n":
-            print("Your best left is: " + str(Game._best_score))
-            print("BYE")
-            break
-        elif tmp == "y":
-            print("\n\n\n"+"Let's play again!\n")
-            Game.newGame(Game)
-        else :
-            print("Input only y,Y or n,N \n")
+    GAME(input("name: "), 0)

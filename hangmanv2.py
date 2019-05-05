@@ -1,7 +1,8 @@
 import random
+from collections import Counter
 
 class Game(object):
-    _best_left = 0
+    _best_score = 0
     _hangman = [
         """
             -----
@@ -79,13 +80,14 @@ class Game(object):
         dashes = "-" * len(secret_word)
         guesses_left = 6
         wrong_count = 0
+        correct_cnt = 0
         letter_storage = []
         print(self._hangman[wrong_count] + "\n")
         while guesses_left > 0 and not dashes == secret_word:
 
             # Print the amount of dashes and guesses left
             print(dashes)
-            print("Best left: " + str(self._best_left))
+            print("Best score: " + str(self._best_score))
             print("Guess(es) left: " + str(guesses_left))
 
             # Ask for input
@@ -95,6 +97,10 @@ class Game(object):
             if guess == secret_word:
                 print("Congrats! You win. You just guessed the whole word!")
                 print(self._hangman[wrong_count] + "\n")
+                if correct_cnt < (len(secret_word))/2:
+                    correct_cnt = len(secret_word)
+                else :
+                    correct_cnt = len(Counter(secret_word).keys())
                 break
          
             #resetGame
@@ -117,6 +123,7 @@ class Game(object):
 
             # the guess is in the secret word
             elif guess in secret_word:
+                correct_cnt += 1
                 print("That letter is in the secret word!")
                 print(self._hangman[wrong_count] + "\n")
                 dashes = Game.update_dashes(self,secret_word, dashes, guess)
@@ -141,9 +148,9 @@ class Game(object):
         # User wins
         else:
             print("Congrats! You win. The word was: " + str(secret_word))
-            if self._best_left < guesses_left:
-                self._best_left = guesses_left
-                print("Congrats! You got the new best. The best left is: " + str(self._best_left))
+            if self._best_score < (correct_cnt + guesses_left):
+                self._best_score = (correct_cnt + guesses_left)
+                print("Congrats! You got the new best. The best score is: " + str(self._best_score))
 
 WORD_FILE = 'words.txt'
 if __name__ == "__main__" :
@@ -155,7 +162,7 @@ if __name__ == "__main__" :
     while True:
         tmp = input("Play again ?[y/n]: ").lower()
         if tmp == "n":
-            print("Your best left is: " + str(Game._best_left))
+            print("Your best left is: " + str(Game._best_score))
             print("BYE")
             break
         elif tmp == "y":

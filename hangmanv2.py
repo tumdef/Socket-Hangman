@@ -89,10 +89,9 @@ class Game(object):
             print(dashes)
             print("Best score: " + str(self._best_score))
             print("Guess(es) left: " + str(guesses_left))
-
             # Ask for input
             guess = input("Guess (To reset type resetgame): ").lower()
-        
+
             # Check if user guess the whole word    
             if guess == secret_word:
                 print("Congrats! You win. You just guessed the whole word!")
@@ -102,40 +101,38 @@ class Game(object):
                 else :
                     correct_cnt = len(Counter(secret_word).keys())
                 break
-         
+
             #resetGame
             elif guess == "resetgame":
                 break
-
-            # Invalid inputs
-            elif len(guess) != 1:
-                print("Your guess must have exactly one character!")
-                print(self._hangman[wrong_count] + "\n")
         
             # input only alphabet     
             elif not guess.isalpha():
                 print("Your guess can only contains alphabet!")
                 print(self._hangman[wrong_count] + "\n")
+      
+            guess
+            for d in range(len(guess)):
 
-            #checking if letter has been already used
-            elif guess in letter_storage:
-                print("You have already guessed that letter!")
+                #checking if letter has been already used
+                if guess[d] in letter_storage:
+                    print("You have already guessed that letter! ( "+guess[d]+" )")
 
-            # the guess is in the secret word
-            elif guess in secret_word:
-                correct_cnt += 1
-                print("That letter is in the secret word!")
-                print(self._hangman[wrong_count] + "\n")
-                dashes = Game.update_dashes(self,secret_word, dashes, guess)
+                # the guess is in the secret word
+                elif guess[d] in secret_word:
+                    correct_cnt += 1
+                    print("That letter ( "+guess[d]+" ) is in the secret word!")
+                    print(self._hangman[wrong_count] + "\n")
+                    dashes = Game.update_dashes(self,secret_word, dashes, guess[d])
 
-            else:
-                wrong_count += 1
-                guesses_left -= 1
-                print("That letter is not in the secret word!\n")
-                print(self._hangman[wrong_count] + "\n")
+                else:
+                    wrong_count += 1
+                    guesses_left -= 1
+                    print("That letter ( "+guess[d]+" ) is not in the secret word!\n")
+                    print(self._hangman[wrong_count] + "\n")
 
             # add guessed letter to a list
-            letter_storage.append(guess)
+            letter_storage.append(guess[d])
 
         #RESETGAME
         if guess == "resetgame":
@@ -148,6 +145,7 @@ class Game(object):
         # User wins
         else:
             print("Congrats! You win. The word was: " + str(secret_word))
+            print("Score : "+ str(correct_cnt + guesses_left))
             if self._best_score < (correct_cnt + guesses_left):
                 self._best_score = (correct_cnt + guesses_left)
                 print("Congrats! You got the new best. The best score is: " + str(self._best_score))

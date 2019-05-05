@@ -90,6 +90,7 @@ class GAME:
             print(dashes)
             print("Best score("+self._userName+"): " + str(self._best_score))
             print("Guess(es) left: " + str(guesses_left))
+            print("Used letters: " + " ".join(str(x) for x in letter_storage) + "\n")
             # Ask for input
             guess = input("Guess (To reset type resetgame): ").lower()
 
@@ -123,16 +124,22 @@ class GAME:
                     correct_cnt += 1
                     print("That letter ( "+guess[d]+" ) is in the secret word!")
                     print(self._hangman[wrong_count] + "\n")
+<<<<<<< HEAD
                     dashes = GAME.update_dashes(self,secret_word, dashes, guess[d])
+=======
+
+                    dashes = Game.update_dashes(self,secret_word, dashes, guess[d])
+>>>>>>> core-game
 
                 else:
                     wrong_count += 1
                     guesses_left -= 1
                     print("That letter ( "+guess[d]+" ) is not in the secret word!\n")
                     print(self._hangman[wrong_count] + "\n")
-
-            # add guessed letter to a list
-            letter_storage.append(guess[d])
+                
+                # add guessed letter to a list
+                if guess[d] not in letter_storage:
+                    letter_storage.append(guess[d])
 
         #RESETGAME
         if guess == "resetgame":

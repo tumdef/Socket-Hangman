@@ -99,58 +99,60 @@ class Game:
             # Check if user guess the whole word
             if guess == secret_word:
                 print("Congrats! You win. You just guessed the whole word!")
-                print("{}\n".format(self._hangman[wrong_count]))
                 if correct_cnt < (len(secret_word))/2:
                     correct_cnt = len(secret_word)
+                    print("And get extra score!")
                 else :
                     correct_cnt = len(Counter(secret_word).keys())
                 break
 
             #resetGame
             elif guess == "resetgame":
+                print("####### RESET GAME #######")
+                Game.newGame(self) # Start new game
                 break
-        
-            # input only alphabet  
-            elif not guess.isalpha():
-                print("Your guess can only contains alphabet!")
-                print("{}\n".format(self._hangman[wrong_count]))
+       
+            else :
 
-            for d in range(len(guess)):
+                for d in range(len(guess)):
 
-                #checking if letter has been already used
-                if guess[d] in letter_storage:
-                    print("You have already guessed the letter \"{}\"!".format(guess[d]))
+                    #checking if guess_left is out
+                    if guesses_left < 1 or correct_cnt >= len(Counter(secret_word).keys()):
+                        break
 
-                # the guess is in the secret word
-                elif guess[d] in secret_word:
-                    correct_cnt += 1
-                    print("The letter {} is in the secret word!".format(guess[d]))
-                    print("{}\n".format(self._hangman[wrong_count]))
+                    #checking if letter has been already used
+                    elif guess[d] in letter_storage:
+                        print("You have already guessed the letter \"{}\"!".format(guess[d]))
 
-                    dashes = Game.update_dashes(self,secret_word, dashes, guess[d])
-
-                else:
-                    wrong_count += 1
-                    guesses_left -= 1
-                    print("The letter {} is not in the secret word!".format(guess[d]))
-                    print("{}\n".format(self._hangman[wrong_count]))
-                
-                # add guessed letter to letter_storage list
-                if guess[d] not in letter_storage:
-                    letter_storage.append(guess[d])
-
-                if guesses_left < 1:
-                    break
-            if guesses_left < 1:
-                    break
+                    # input only alphabet  
+                    elif not guess[d].isalpha():
+                        print("Your guess can only contains alphabet!")
+                        print("\"{}\" is not an alphabet!".format(guess[d]))
+                        letter_storage.append(guess[d])        
                     
-        #RESETGAME
-        if guess == "resetgame":
-            print("####### RESET GAME #######")
-            Game.newGame(self) # Start new game
+                    else :
+                        # the guess is in the secret word
+                        if guess[d] in secret_word:
+                            correct_cnt += 1
+                            print("The letter {} is in the secret word!".format(guess[d]))
+
+                            dashes = Game.update_dashes(self,secret_word, dashes, guess[d])
+
+                        else:
+                            wrong_count += 1
+                            guesses_left -= 1
+                            print("The letter {} is not in the secret word!".format(guess[d]))
+
+                        # add guessed letter to letter_storage list    
+                        letter_storage.append(guess[d])
+
+            print("{}\n".format(self._hangman[wrong_count]))
+
+            if guesses_left < 1 or correct_cnt >= len(Counter(secret_word).keys()):
+                    break
 
         # User loses
-        elif guesses_left < 1:
+        if guesses_left < 1:
             print("{}".format(dashes))
             print("Your guess is out")
             print("You lose. The word was: {}".format(secret_word))

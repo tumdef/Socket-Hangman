@@ -1,10 +1,11 @@
 import random
 from collections import Counter
+import linecache
 
-class GAME:
+class Game:
     _userName = ""
     _best_score = 0
-    _hangman = [
+    _hangman = (
         """
             -----
             |   |
@@ -61,7 +62,7 @@ class GAME:
            /|\  |
            / \  |
                 |
-            ---------"""]
+            ---------""")
 
     def update_dashes(self,secret, cur_dash, rec_guess):
         result = ""
@@ -77,7 +78,8 @@ class GAME:
         return result
 
     def newGame(self):
-        secret_word = random.choice(words)
+        generate = random.randint(1, 734)
+        secret_word = linecache.getline('words.txt', generate)
         dashes = "-" * len(secret_word)
         guesses_left = 6
         wrong_count = 0
@@ -94,7 +96,7 @@ class GAME:
             # Ask for input
             guess = input("Guess (To reset type resetgame): ").lower()
 
-            # Check if user guess the whole word    
+            # Check if user guess the whole word
             if guess == secret_word:
                 print("Congrats! You win. You just guessed the whole word!")
                 print(self._hangman[wrong_count] + "\n")
@@ -108,7 +110,7 @@ class GAME:
             elif guess == "resetgame":
                 break
         
-            # input only alphabet     
+            # input only alphabet  
             elif not guess.isalpha():
                 print("Your guess can only contains alphabet!")
                 print(self._hangman[wrong_count] + "\n")
@@ -125,7 +127,7 @@ class GAME:
                     print("That letter ( "+guess[d]+" ) is in the secret word!")
                     print(self._hangman[wrong_count] + "\n")
 
-                    dashes = GAME.update_dashes(self,secret_word, dashes, guess[d])
+                    dashes = Game.update_dashes(self,secret_word, dashes, guess[d])
 
                 else:
                     wrong_count += 1
@@ -160,7 +162,7 @@ class GAME:
     def __init__(self,user,score):
         self._userName = user
         self._best_score = score
-        GAME.newGame(self)
+        Game.newGame(self)
         while True:
             tmp = input("Play again ?[y/n]: ").lower()
             if tmp == "n":
@@ -169,15 +171,12 @@ class GAME:
                 break
             elif tmp == "y":
                 print("\n\n\n"+"Let's play again!\n")
-                GAME(self._userName,self._best_score)
+                Game(self._userName,self._best_score)
             else :
                 print("Input only y,Y or n,N \n")
             exit()
 
-WORD_FILE = 'words.txt'
-if __name__ == "__main__" :
+WORD_FILE = 'wrds.txt'
+if __name__ == "__main__":
     # word list
-    # words = ["bob", "baab", "burp", "apple"]
-    wordlist = open(WORD_FILE, 'r').readlines()
-    words = [word.strip() for word in wordlist]
-    GAME(input("name: "), 0)
+    Game(input("Name please : "), 0)

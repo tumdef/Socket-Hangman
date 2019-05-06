@@ -102,12 +102,15 @@ class Game:
                 print("{}\n".format(self._hangman[wrong_count]))
                 if correct_cnt < (len(secret_word))/2:
                     correct_cnt = len(secret_word)
+                    print("And get extra score!")
                 else :
                     correct_cnt = len(Counter(secret_word).keys())
                 break
 
             #resetGame
             elif guess == "resetgame":
+                print("####### RESET GAME #######")
+                Game.newGame(self) # Start new game
                 break
         
             # input only alphabet  
@@ -115,7 +118,7 @@ class Game:
                 print("Your guess can only contains alphabet!")
                 print("{}\n".format(self._hangman[wrong_count]))
 
-            for d in range(len(guess)):
+                for d in range(len(guess)):
 
                 #checking if letter has been already used
                 if guess[d] in letter_storage:
@@ -150,7 +153,9 @@ class Game:
             Game.newGame(self) # Start new game
 
         # User loses
-        elif guesses_left < 1:
+        if guesses_left < 1:
+            print("{}".format(dashes))
+            print("Your guess is out")
             print("You lose. The word was: {}".format(secret_word))
 
         # User wins

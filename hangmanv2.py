@@ -7,62 +7,62 @@ class Game:
     _best_score = 0
     _hangman = (
         """
-            -----
-            |   |
-                |
-                |
-                |
-                |
-            ---------""",
+             _____
+             |  \|
+                 |
+                 |
+                 |
+                 |
+            =========""",
         """
-            -----
-            |   |
-            O   |
-                |
-                |
-                |
-            ---------""",
+             _____
+             |  \|
+             O   |
+                 |
+                 |
+                 |
+            =========""",
 
         """
-            -----
-            |   |
-            O   |
-            |   |
-                |
-                |
-            ---------""",
+             _____
+             |  \|
+             O   |
+             |   |
+                 |
+                 |
+            =========""",
         """
-            -----
-            |   |
-            O   |
-            |\  |
-                |
-                |
-            ---------""",
+             _____
+             |  \|
+             O   |
+             |\  |
+                 |
+                 |
+            =========""",
         """
-            -----
-            |   |
-            O   |
-           /|\  |
-                |
-                |
-            ---------""",
+             _____
+             |  \|
+             O   |
+            /|\  |
+                 |
+                 |
+            =========""",
         """
-            -----
-            |   |
-            O   |
-           /|\  |
-             \  |
-                |
-            ---------""",
+             _____
+             |  \|
+             O   |
+            /|\  |
+              \  |
+                 |
+            =========""",
         """
-            -----
-            |   |
-            O   |
-           /|\  |
-           / \  |
-                |
-            ---------""")
+             _____
+             |  \|
+             O   |
+            /|\  |
+            / \  |
+                 |
+            =========""")
 
     def update_dashes(self,secret, cur_dash, rec_guess):
         result = ""
@@ -79,7 +79,7 @@ class Game:
 
     def newGame(self):
         generate = random.randint(1, 734)
-        secret_word = linecache.getline('words.txt', generate)
+        secret_word = linecache.getline('words.txt', generate)[:-1]
         dashes = "-" * len(secret_word)
         guesses_left = 6
         wrong_count = 0
@@ -89,7 +89,7 @@ class Game:
         while guesses_left > 0 and not dashes == secret_word:
 
             # Print the amount of dashes and guesses left
-            print(dashes)
+            print("\n" + "   "+ dashes + "\n")
             print("Best score("+self._userName+"): " + str(self._best_score))
             print("Guess(es) left: " + str(guesses_left))
             print("Used letters: " + " ".join(str(x) for x in letter_storage) + "\n")

@@ -147,6 +147,7 @@ class Game:
         #RESETGAME
         if guess == "resetgame":
             print("####### RESET GAME #######")
+            Game.newGame(self) # Start new game
 
         # User loses
         elif guesses_left < 1:

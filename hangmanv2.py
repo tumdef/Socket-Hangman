@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import random
 from collections import Counter
 import linecache
@@ -173,6 +175,7 @@ class Game:
         self._best_score = score
         Game.newGame(self)
         while True:
+            #end game
             tmp = input("Play again ?[y/n]: ").lower()
             if tmp == "n":
                 print("Your best left is: {}".format(self._best_score))

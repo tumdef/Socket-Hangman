@@ -2,6 +2,8 @@
 
 import socket
 import sys
+import core_game_client
+import json
 
 class client():
 
@@ -15,21 +17,27 @@ class client():
         print("connection established...")
 
     def send_message(self, message):
-        self.sock.sendall(bytes(message, 'ascii'))
+        self.sock.sendall(bytes(message, 'utf-8'))
         
     def get_message(self):
-        received = str(self.sock.recv(1024), 'ascii')
-        print(received)
+        received = str(self.sock.recv(1024), 'utf-8')
+        return received
 
 if __name__ == "__main__":
-    test = client()
+    usr = client()
     try:
-        ex = input("enter some text: ")
-        test.send_message(ex)
-        test.get_message()
+        name = input("Please enter your name: ")
+        usr.send_message(name)
+        game = core_game_client.Game()
+        print("\n   {}\n".format(usr.get_message()))
+        guess_left = usr.get_message()
+        print("Guess(es) left: {}".format(guess_left))
+        data = usr.sock.recv(1024)
+        letter_storage = json.loads(data)
+        print("Used letters: {}".format(repr(letter_storage)))
     except (OverflowError, IOError):
         print("somthings wrong...")
     except KeyboardInterrupt:
         sys.exit(0)
     finally:
-        test.sock.close()
+        usr.sock.close()

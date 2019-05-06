@@ -109,7 +109,6 @@ class Game:
             #resetGame
             elif guess == "resetgame":
                 print("####### RESET GAME #######")
-                Game.newGame(self) # Start new game
                 break
        
             else :
@@ -151,8 +150,12 @@ class Game:
             if guesses_left < 1 or correct_cnt >= len(Counter(secret_word).keys()):
                     break
 
+        #user reset
+        if guess == "resetgame":
+            Game.newGame(self)
+
         # User loses
-        if guesses_left < 1:
+        elif guesses_left < 1:
             print("{}".format(dashes))
             print("Your guess is out")
             print("You lose. The word was: {}".format(secret_word))

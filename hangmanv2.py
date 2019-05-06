@@ -135,8 +135,9 @@ class Game:
                     print("The letter {} is not in the secret word!".format(guess[d]))
                     print("{}\n".format(self._hangman[wrong_count]))
                 
-                # add guessed letter to a list
-                letter_storage.append(guess[d])
+                # add guessed letter to letter_storage list
+                if guess[d] not in letter_storage:
+                    letter_storage.append(guess[d])
 
                 if guesses_left < 1:
                     break

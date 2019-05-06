@@ -151,6 +151,8 @@ class Game:
 
         # User loses
         elif guesses_left < 1:
+            print("{}".format(dashes))
+            print("Your guess is out")
             print("You lose. The word was: {}".format(secret_word))
 
         # User wins

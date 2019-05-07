@@ -42,6 +42,11 @@ if __name__ == "__main__":
             game.check_letter(guessinserver, guess) # send boolean if guess is in server to client
             #check for answer type
             ans_type = usr.get_message()
+            game.chk_ans_type(ans_type)
+
+            # get scoreboard
+            print("{}".format(usr.get_message()))
+
             if game.chk_ans_type(ans_type): break
             is_in_secret = usr.get_message()
             game.check_guess(int(is_in_secret), guess)

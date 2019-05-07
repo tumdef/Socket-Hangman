@@ -45,6 +45,15 @@ class SingleTCPHandler(socketserver.BaseRequestHandler):
                 else:
                     self.request.sendall(bytes('0', 'utf-8'))
                     time.sleep(0.1) #send back error message
+
+            # call DBs functions to show scoreboard
+            game.update_score(game.player_name, game.player_score)
+            board = game.show_scoreboard()
+            self.request.sendall(bytes(board, 'utf-8'))
+            print("{} | Printed scoreboard in client".format(cur_thread.name))
+            # self.request.sendall(bytes(board, 'utf-8'))
+            time.sleep(0.1)
+
             if guess == "reset":
                 game.reset()
                 continue

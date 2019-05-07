@@ -1,6 +1,6 @@
 
 class Game():
-    _hangman = (
+     _hangman = (
         """
              _____
              |  \|
@@ -58,7 +58,8 @@ class Game():
             / \  |
                  |
             =========""")
+     letter_storage = []
 
-    def __init__(self):
-        wrong_count = 0
-        print("{}\n".format(self._hangman[0]))
+     def __init__(self):
+          wrong_count = 0
+          print("{}\n".format(self._hangman[0]))

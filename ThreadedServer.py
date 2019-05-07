@@ -45,6 +45,10 @@ class SingleTCPHandler(socketserver.BaseRequestHandler):
                     self.request.sendall(bytes('0', 'utf-8'))
                     time.sleep(0.1) #send back error message
 
+            # call DBs functions to show scoreboard
+            game.update_score(game.player_name, game.player_score)
+            game.show_scoreboard()
+
             self.request.sendall(bytes("rox", 'utf-8')) # reset or exit
             end_ans = str(self.request.recv(1024), 'utf-8')
             if end_ans == "reset":

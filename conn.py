@@ -42,10 +42,11 @@ if __name__ == "__main__":
             game.check_letter(guessinserver, guess) # send boolean if guess is in server to client
             #check for answer type
             ans_type = usr.get_message()
-            game.chk_ans_type(ans_type)
-
+            if game.chk_ans_type(ans_type): break
+            is_in_secret = usr.get_message()
+            game.check_guess(int(is_in_secret), guess)
             #end game
-            if usr.get_message() == "rox":
+            """if usr.get_message() == "rox":
                 while 1:
                     again = input("Play again? [y/n]: ").lower()
                     if not (again == "y" or again == "yes" or again == "n" or again == "no"):
@@ -56,7 +57,7 @@ if __name__ == "__main__":
                     usr.send_message("reset")
                     game.reset()
                     continue
-                break
+                break"""
                 
 
     except (OverflowError, IOError):

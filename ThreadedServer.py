@@ -29,22 +29,25 @@ class SingleTCPHandler(socketserver.BaseRequestHandler):
                 guess = str(self.request.recv(1024), 'utf-8') # get guess from conn
                 if not guess: break
                 print("{} | Guess: {}".format(cur_thread.name ,guess))
-                if guess == "reset":
-                    game.reset()
-                    continue
+                if guess == "reset": break
                 if game.check_letter(guess):
                     self.request.sendall(bytes('1', 'utf-8')) # never guess this letter
                     time.sleep(0.1)
-
-                    is_whole = game.check_guess(guess)
+                    is_whole = game.is_whole(guess)
                     print("{} | ans type: {}".format(cur_thread.name, is_whole))
-                    self.request.sendall(bytes(is_whole, 'utf-8')) # send type of guess
+                    self.request.sendall(bytes(str(is_whole), 'utf-8')) # send type of guess
                     time.sleep(0.1)
                     if is_whole: break
+                    is_in_secret = game.check_guess(guess)
+                    print(is_in_secret)
+                    self.request.sendall(bytes(str(is_in_secret), 'utf-8')) # send guess right or wrong
+                    time.sleep(0.1)
                 else:
                     self.request.sendall(bytes('0', 'utf-8'))
                     time.sleep(0.1) #send back error message
-
+            if guess == "reset":
+                game.reset()
+                continue
             self.request.sendall(bytes("rox", 'utf-8')) # reset or exit
             end_ans = str(self.request.recv(1024), 'utf-8')
             if end_ans == "reset":

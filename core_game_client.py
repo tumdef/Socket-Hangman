@@ -76,5 +76,14 @@ class Game():
      def chk_ans_type(self, ans_type):
           if ans_type == "we":
                print("Congrats! You win. You just guessed the whole word and get extra score!")
+               return 1
           elif ans_type == "w":
                print("Congrats! You win. You just guessed the whole word! but did not get extra score :(")
+               return 1
+          return 0
+
+     def check_guess(self, is_in_secret, guess):
+          if is_in_secret:
+               print("The letter {} is in the secret word!".format(guess))
+          else:
+               print("The letter {} is not in the secret word!".format(guess))

@@ -20,8 +20,8 @@ class Game():
         self.result = ""
 
         for i in range(len(secret)):
-            if self.secret[i] == self.rec_guess:
-                self.result = self.result + self.rec_guess # Adds guess to string if guess is correctly
+            if secret[i] == rec_guess:
+                self.result = self.result + rec_guess # Adds guess to string if guess is correctly
 
             else:
                 # Add the dash at index i to result if it doesn't match the guess
@@ -44,7 +44,7 @@ class Game():
     def get_dashes(self):
         return Counter(self.dashes)["-"]
 
-    def check_guess(self, guess):
+    def is_whole(self, guess):
         if  Game.is_wholeword(self, guess) and (Game.get_dashes(self) > len(self._secret_word)//2):
             self.player_score =  len(self._secret_word)
             return 'we'
@@ -52,7 +52,7 @@ class Game():
             self.correct_cnt = len(Counter(self._secret_word).keys())
             return 'w'
         else:
-            return '0'
+            return 0
 
     def update_score(self, p_name, p_score):
         # db connect
@@ -75,3 +75,21 @@ class Game():
         print (t)
 
         conn.close()
+
+    def check_guess(self, guess):
+        # the guess is in the secret word
+        if guess in self._secret_word:
+            self.correct_cnt += 1
+            self.in_secret = 1
+            print("The letter {} is in the secret word!".format(guess))
+            #update dash
+            self.dashes = Game.update_dashes(self,self._secret_word, self.dashes, guess)
+        else:
+            self.wrong_count += 1
+            self.guesses_left -= 1
+            self.in_secret = 0
+            print("The letter {} is not in the secret word!".format(guess))
+        # add guessed letter to letter_storage list
+        Game.check_letter(self, guess)
+        return self.in_secret
+        #print("{}\n".format(self._hangman[self.wrong_count]))

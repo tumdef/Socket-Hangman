@@ -14,8 +14,8 @@ class SingleTCPHandler(socketserver.BaseRequestHandler):
         print(cur_thread)
         thread_count = threading.active_count()
         print("thread count: {}".format(thread_count))
-        name = str(self.request.recv(1024), 'utf-8')
-        game = core_game_server.Game(name)
+        name = str(self.request.recv(1024), 'utf-8') # get name from conn
+        game = core_game_server.Game(name) # new gmae
         #game loop
         #while game.guesses_left > 0 and not game.dashes == game._secret_word:
         self.request.sendall(bytes(game.dashes, 'utf-8'))
@@ -25,6 +25,9 @@ class SingleTCPHandler(socketserver.BaseRequestHandler):
         time.sleep(0.1)
         letter_storage = json.dumps(game.letter_storage)
         self.request.sendall(letter_storage.encode())
+        time.sleep(0.1)
+        guess = str(self.request.recv(1024), 'utf-8') # get guess from conn
+
         # game
 
 class ThreadedTCPServer(socketserver.ThreadingMixIn, socketserver.TCPServer):

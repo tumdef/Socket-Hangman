@@ -28,13 +28,16 @@ if __name__ == "__main__":
     try:
         name = input("Please enter your name: ")
         usr.send_message(name)
-        game = core_game_client.Game()
-        print("\n   {}\n".format(usr.get_message()))
+        game = core_game_client.Game() # hangman list from core_game_cli
+        print("\n   {}\n".format(usr.get_message())) # get dashes
         guess_left = usr.get_message()
         print("Guess(es) left: {}".format(guess_left))
         data = usr.sock.recv(1024)
         letter_storage = json.loads(data)
         print("Used letters: {}".format(repr(letter_storage)))
+        guess = input("Guess (To reset type resetgame): ").lower()
+        usr.send_message(guess) # get guess and send to server
+
     except (OverflowError, IOError):
         print("somthings wrong...")
     except KeyboardInterrupt:

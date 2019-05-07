@@ -54,7 +54,7 @@ class Game():
         elif len(guess) > 1:
             return 0
         else:
-            return 'valid'
+            return 'single'
 
     def update_score(self, p_name, p_score):
         # db connect

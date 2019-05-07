@@ -16,22 +16,25 @@ class SingleTCPHandler(socketserver.BaseRequestHandler):
         print("thread count: {}".format(thread_count))
         name = str(self.request.recv(1024), 'utf-8') # get name from conn
         game = core_game_server.Game(name) # new game
-        print(game.player_name, cur_thread.name)
-        #game loop
-        #while game.guesses_left > 0 and not game.dashes == game._secret_word:
+        print("{} | Player name: {}".format(cur_thread.name ,game.player_name))
+        #initial
         self.request.sendall(bytes(game.dashes, 'utf-8'))
         time.sleep(0.1)
-        #best score
+        # TODO: best score from db
         self.request.sendall(bytes(str(game.guesses_left), 'utf-8'))
         time.sleep(0.1)
         letter_storage = json.dumps(game.letter_storage)
         self.request.sendall(letter_storage.encode())
         time.sleep(0.1)
-        guess = str(self.request.recv(1024), 'utf-8') # get guess from conn
-        if guess == "reset":
-            game.reset()
-        print(game.player_name)
-        # game
+        #game loop
+        while 1:
+            guess = str(self.request.recv(1024), 'utf-8') # get guess from conn
+            if not guess: break
+            print("{} | Guess: {}".format(cur_thread.name ,guess))
+            if guess == "reset":
+                game.reset()
+                continue
+        # loop end
 
 class ThreadedTCPServer(socketserver.ThreadingMixIn, socketserver.TCPServer):
     daemon_threads = True

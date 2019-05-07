@@ -3,7 +3,6 @@
 import socket
 import sys
 import core_game_client
-import json
 
 class client():
 
@@ -33,9 +32,7 @@ if __name__ == "__main__":
             print("\n   {}\n".format(usr.get_message())) # get dashes
             guess_left = usr.get_message()
             print("Guess(es) left: {}".format(guess_left))
-            data = usr.sock.recv(1024)
-            letter_storage = json.loads(data)
-            print("Used letters: {}".format(repr(letter_storage)))
+            print("Used letters: {}".format(" ".join(str(x) for x in game.letter_storage) + "\n"))
             guess = input("Guess: ").lower()
             usr.send_message(guess) # get guess and send to server
             if guess == "reset":

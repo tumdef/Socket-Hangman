@@ -21,6 +21,8 @@ class SingleTCPHandler(socketserver.BaseRequestHandler):
 
             while game.guesses_left > 0 and not game.dashes == game._secret_word:
                 #game loop
+                self.request.sendall(bytes(str(game.wrong_count), 'utf-8'))
+                time.sleep(0.1)
                 self.request.sendall(bytes(game.dashes, 'utf-8'))
                 time.sleep(0.1)
                 # TODO: best score from db
@@ -37,14 +39,31 @@ class SingleTCPHandler(socketserver.BaseRequestHandler):
                     print("{} | ans type: {}".format(cur_thread.name, is_whole))
                     self.request.sendall(bytes(str(is_whole), 'utf-8')) # send type of guess
                     time.sleep(0.1)
-                    if is_whole: break
-                    is_in_secret = game.check_guess(guess)
-                    print(is_in_secret)
-                    self.request.sendall(bytes(str(is_in_secret), 'utf-8')) # send guess right or wrong
-                    time.sleep(0.1)
+                    if is_whole == 'we' or is_whole == 'w': break
+                    elif is_whole == 'single':
+                        is_in_secret = game.check_guess(guess)
+                        print(is_in_secret)
+                        self.request.sendall(bytes(str(is_in_secret), 'utf-8')) # send guess right or wrong
+                        time.sleep(0.1)
+                    else:
+                        self.request.sendall(bytes('0', 'utf-8'))
+                        time.sleep(0.1) #send back error message
                 else:
                     self.request.sendall(bytes('0', 'utf-8'))
                     time.sleep(0.1) #send back error message
+            #end
+            if guess == "reset":
+                game.reset()
+                continue
+            # User loses
+            if self.guesses_left < 1:
+                print("You lose. The word was: " + str(self._secret_word))
+            # User wins
+            else:
+                print("Congrats! You win. The word was: " + str(self._secret_word))
+                if self.best_left < self.guesses_left:
+                    self.best_left = self.guesses_left
+                    print("Congrats! You got the new best. The best is: " + str(self.best_left))
 
             # call DBs functions to show scoreboard
             game.update_score(game.player_name, game.player_score)
@@ -54,9 +73,6 @@ class SingleTCPHandler(socketserver.BaseRequestHandler):
             # self.request.sendall(bytes(board, 'utf-8'))
             time.sleep(0.1)
 
-            if guess == "reset":
-                game.reset()
-                continue
             self.request.sendall(bytes("rox", 'utf-8')) # reset or exit
             end_ans = str(self.request.recv(1024), 'utf-8')
             if end_ans == "reset":

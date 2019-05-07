@@ -68,7 +68,6 @@ class Game():
      def __init__(self):
           self.wrong_count = 0
           self.letter_storage = []
-          print("{}\n".format(self._hangman[0]))
 
      def reset(self):
           self.__init__()

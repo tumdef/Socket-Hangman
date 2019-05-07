@@ -45,14 +45,16 @@ class Game():
         return Counter(self.dashes)["-"]
 
     def is_whole(self, guess):
-        if  Game.is_wholeword(self, guess) and (Game.get_dashes(self) > len(self._secret_word)//2):
+        if  Game.is_wholeword(self, guess) and (Game.get_dashes(self) >= len(self._secret_word)//2):
             self.player_score =  len(self._secret_word)
             return 'we'
         elif Game.is_wholeword(self, guess):
             self.correct_cnt = len(Counter(self._secret_word).keys())
             return 'w'
-        else:
+        elif len(guess) > 1:
             return 0
+        else:
+            return 'valid'
 
     def update_score(self, p_name, p_score):
         # db connect

@@ -69,9 +69,9 @@ class Game():
         conn = sqlite3.connect('scores.db')
         # query
         t = PrettyTable(['Name', 'Score'])
-        cursor = conn.execute("SELECT Name, Score FROM Scoreboard ORDER BY Score DESC")
+        cursor = conn.execute("SELECT Name, Score FROM Scoreboard ORDER BY Score DESC LIMIT 5")
         for row in cursor:
             t.add_row([row[0], row[1]])
-        print (t)
+        return t.get_string()
 
         conn.close()

@@ -47,7 +47,11 @@ class SingleTCPHandler(socketserver.BaseRequestHandler):
 
             # call DBs functions to show scoreboard
             game.update_score(game.player_name, game.player_score)
-            game.show_scoreboard()
+            board = game.show_scoreboard()
+            self.request.sendall(bytes(board, 'utf-8'))
+            print("{} | Printed scoreboard in client".format(cur_thread.name))
+            # self.request.sendall(bytes(board, 'utf-8'))
+            time.sleep(0.1)
 
             self.request.sendall(bytes("rox", 'utf-8')) # reset or exit
             end_ans = str(self.request.recv(1024), 'utf-8')

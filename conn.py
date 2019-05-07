@@ -44,6 +44,9 @@ if __name__ == "__main__":
             ans_type = usr.get_message()
             game.chk_ans_type(ans_type)
 
+            # get scoreboard
+            print("{}".format(usr.get_message()))
+
             #end game
             if usr.get_message() == "rox":
                 while 1:

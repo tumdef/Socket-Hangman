@@ -36,3 +36,16 @@ class Game():
             self.letter_storage.append(guess)
             return 1
         return 0
+    
+    def is_wholeword(self, guess):
+        return guess == self._secret_word
+
+    def get_dashes(self):
+        return Counter(self.dashes)["-"]
+
+    def check_guess(self, guess):
+        if Game.is_wholeword(self, guess) and (Game.get_dashes(self) > len(self._secret_word)//2):
+            print("Congrats! You win. You just guessed the whole word and get extra score!")
+            self.player_score =  len(self._secret_word)
+        else:
+            pass

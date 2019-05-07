@@ -17,6 +17,7 @@ class SingleTCPHandler(socketserver.BaseRequestHandler):
         name = str(self.request.recv(1024), 'utf-8') # get name from conn
         game = core_game_server.Game(name) # new game
         print("{} | Player name: {}".format(cur_thread.name ,game.player_name))
+        print("{} | Secret word is: {}".format(cur_thread.name ,game._secret_word))
         #initial
         self.request.sendall(bytes(game.dashes, 'utf-8'))
         time.sleep(0.1)
@@ -34,10 +35,12 @@ class SingleTCPHandler(socketserver.BaseRequestHandler):
             if guess == "reset":
                 game.reset()
                 continue
-            guessisinserver = game.check_letter(guess)
-            # print(guessisinserver)
-            self.request.sendall(bytes(str(guessisinserver), 'utf-8'))
-            time.sleep(0.1)
+            if game.check_letter(guess):
+                self.request.sendall(bytes('1', 'utf-8'))
+                time.sleep(0.1)
+            else:
+                self.request.sendall(bytes('0', 'utf-8'))
+                time.sleep(0.1) #send back error message
         # loop end
 
 class ThreadedTCPServer(socketserver.ThreadingMixIn, socketserver.TCPServer):

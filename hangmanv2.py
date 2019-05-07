@@ -88,30 +88,32 @@ class Game:
         correct_cnt = 0
         letter_storage = []
         print("{}\n".format(self._hangman[wrong_count]))
-        while guesses_left > 0 and not dashes == secret_word:
 
+        """ 
+        This loop will run until you win, lose or type "reset" 
+        """#guess = input("Guess (To reset type resetgame): ").lower()
+"""init"""  while guesses_left > 0 and not dashes == secret_word:
             # Print the amount of dashes and guesses left
-            print("\n   {}\n".format(dashes))
+            """print("\n   {}\n".format(dashes))
             print("Best score({}): {}".format(self._userName, str(self._best_score)))
             print("Guess(es) left: {}".format(guesses_left))
             print("Used letters: {}".format(" ".join(str(x) for x in letter_storage) + "\n"))
-            # Ask for input
-            guess = input("Guess (To reset type resetgame): ").lower()
+            """# Ask for input
 
-            # Check if user guess the whole word
+          # Check if user guess the whole word
             if guess == secret_word:
                 print("Congrats! You win. You just guessed the whole word!")
                 if correct_cnt < (len(secret_word))/2:
                     correct_cnt = len(secret_word)
                     print("And get extra score!")
-                else :
+                else : #cheating
                     correct_cnt = len(Counter(secret_word).keys())
                 break
 
-            #resetGame
+            """#resetGame
             elif guess == "resetgame":
                 print("####### RESET GAME #######")
-                break
+                break"""
        
             else :
 
@@ -151,10 +153,13 @@ class Game:
 
             if guesses_left < 1 or correct_cnt >= len(Counter(secret_word).keys()):
                     break
+        """
+        end loop
+        """
 
-        #user reset
+        """#user reset
         if guess == "resetgame":
-            Game.newGame(self)
+            Game.newGame(self)"""
 
         # User loses
         elif guesses_left < 1:
@@ -170,10 +175,7 @@ class Game:
                 self._best_score = (correct_cnt + guesses_left)
                 print("Congrats! You got the new best. The best score is: {}".format(self._best_score))
 
-    def __init__(self,user,score):
-        self._userName = user
-        self._best_score = score
-        Game.newGame(self)
+
         while True:
             #end game
             tmp = input("Play again ?[y/n]: ").lower()
@@ -186,7 +188,4 @@ class Game:
                 Game(self._userName,self._best_score)
             else :
                 print("command not regcognize\n")
-            exit()
-
-if __name__ == "__main__":
-    Game(input("Name please : "), 0)
+            #sys.exit(0)

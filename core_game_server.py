@@ -28,12 +28,5 @@ class Game():
     
         return self.result
 
-    def game_loop(self):
-        while self.guesses_left > 0 and not self.dashes == self._secret_word:
-            # send the amount of dashes and guesses left
-            print("\n   {}\n".format(dashes))
-            print("Best score({}): {}".format(self._userName, str(self._best_score)))
-            print("Guess(es) left: {}".format(guesses_left))
-            print("Used letters: {}".format(" ".join(str(x) for x in letter_storage) + "\n"))
-            # Ask for input
-            guess = input("Guess (To reset type resetgame): ").lower()
+    def reset(self):
+        self.__init__(self.player_name)

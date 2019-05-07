@@ -35,7 +35,8 @@ if __name__ == "__main__":
         data = usr.sock.recv(1024)
         letter_storage = json.loads(data)
         print("Used letters: {}".format(repr(letter_storage)))
-        guess = input("Guess (To reset type resetgame): ").lower()
+        #while 1:
+        guess = input("Guess: ").lower()
         usr.send_message(guess) # get guess and send to server
 
     except (OverflowError, IOError):

@@ -1,6 +1,7 @@
-import random
+import random, linecache
 from collections import Counter
-import linecache
+import sqlite3
+from prettytable import PrettyTable
 
 class Game():
 
@@ -49,3 +50,25 @@ class Game():
             self.player_score =  len(self._secret_word)
         else:
             pass
+
+    def update_score(self, p_name, p_score):
+        # db connect
+        conn = sqlite3.connect('scores.db')
+        # add record
+        conn.execute("INSERT INTO Scoreboard (Name,Score) \
+             	        VALUES (?, ?)", (p_name,p_score))
+        conn.commit()
+
+        conn.close()
+
+    # ptable from https://pypi.org/project/PrettyTable
+    def show_scoreboard(self):
+        conn = sqlite3.connect('scores.db')
+        # query
+        t = PrettyTable(['Name', 'Score'])
+        cursor = conn.execute("SELECT Name, Score FROM Scoreboard ORDER BY Score DESC")
+        for row in cursor:
+            t.add_row([row[0], row[1]])
+        print (t)
+
+        conn.close()

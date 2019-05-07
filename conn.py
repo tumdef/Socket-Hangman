@@ -42,10 +42,7 @@ if __name__ == "__main__":
             game.check_letter(guessinserver, guess) # send boolean if guess is in server to client
             #check for answer type
             ans_type = usr.get_message()
-            if ans_type == "we":
-                print("Congrats! You win. You just guessed the whole word and get extra score!")
-            elif ans_type == "w":
-                print("Congrats! You win. You just guessed the whole word! but did not get extra score :(")
+            game.chk_ans_type(ans_type)
 
             #end game
             if usr.get_message() == "rox":

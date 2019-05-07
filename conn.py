@@ -40,6 +40,9 @@ if __name__ == "__main__":
             usr.send_message(guess) # get guess and send to server
             if guess == "reset":
                 continue
+            guessinserver = int(usr.get_message())
+            # print(guessinserver)
+            game.check_letter(guessinserver, guess) # send boolean if guess is in server to client
 
     except (OverflowError, IOError):
         print("somthings wrong...")

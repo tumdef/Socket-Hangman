@@ -34,6 +34,10 @@ class SingleTCPHandler(socketserver.BaseRequestHandler):
             if guess == "reset":
                 game.reset()
                 continue
+            guessisinserver = game.check_letter(guess)
+            # print(guessisinserver)
+            self.request.sendall(bytes(str(guessisinserver), 'utf-8'))
+            time.sleep(0.1)
         # loop end
 
 class ThreadedTCPServer(socketserver.ThreadingMixIn, socketserver.TCPServer):

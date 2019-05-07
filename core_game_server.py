@@ -4,7 +4,7 @@ import linecache
 
 class Game():
 
-    def __init__(self,name):
+    def __init__(self, name):
         self.player_name = name
         self.player_score = 0
         self._generate = random.randint(1, 734)
@@ -15,7 +15,7 @@ class Game():
         self.correct_cnt = 0
         self.letter_storage = []
         
-    def update_dashes(self,secret, cur_dash, rec_guess):
+    def update_dashes(self, secret, cur_dash, rec_guess):
         self.result = ""
 
         for i in range(len(secret)):
@@ -30,3 +30,9 @@ class Game():
 
     def reset(self):
         self.__init__(self.player_name)
+
+    def check_letter(self, guess):
+        if guess not in self.letter_storage:
+            self.letter_storage.append(guess)
+            return 1
+        return 0

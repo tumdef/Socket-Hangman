@@ -70,3 +70,6 @@ class Game():
      def __init__(self):
           wrong_count = 0
           print("{}\n".format(self._hangman[0]))
+
+     def reset(self):
+          self.__init__()

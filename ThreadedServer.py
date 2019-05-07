@@ -19,18 +19,17 @@ class SingleTCPHandler(socketserver.BaseRequestHandler):
         print("{} | Player name: {}".format(cur_thread.name ,game.player_name))
         while 1:
             print("{} | Secret word is: {}".format(cur_thread.name ,game._secret_word))
-            #initial
-            self.request.sendall(bytes(game.dashes, 'utf-8'))
-            time.sleep(0.1)
-            # TODO: best score from db
-            self.request.sendall(bytes(str(game.guesses_left), 'utf-8'))
-            time.sleep(0.1)
-            letter_storage = json.dumps(game.letter_storage)
-            self.request.sendall(letter_storage.encode())
-            time.sleep(0.1)
-            #game loop
-        
+            
             while game.guesses_left > 0 and not game.dashes == game._secret_word:
+                #game loop
+                self.request.sendall(bytes(game.dashes, 'utf-8'))
+                time.sleep(0.1)
+                # TODO: best score from db
+                self.request.sendall(bytes(str(game.guesses_left), 'utf-8'))
+                time.sleep(0.1)
+                letter_storage = json.dumps(game.letter_storage)
+                self.request.sendall(letter_storage.encode())
+                time.sleep(0.1)
                 guess = str(self.request.recv(1024), 'utf-8') # get guess from conn
                 if not guess: break
                 print("{} | Guess: {}".format(cur_thread.name ,guess))

@@ -28,8 +28,8 @@ if __name__ == "__main__":
     try:
         name = input("Please enter your name: ")
         usr.send_message(name)
+        game = core_game_client.Game() # hangman list from core_game_cli
         while 1:
-            game = core_game_client.Game() # hangman list from core_game_cli
             print("\n   {}\n".format(usr.get_message())) # get dashes
             guess_left = usr.get_message()
             print("Guess(es) left: {}".format(guess_left))
@@ -60,6 +60,7 @@ if __name__ == "__main__":
                     break
                 if again == "y" or again == "yes":
                     usr.send_message("reset")
+                    game.reset()
                     continue
                 break
                 

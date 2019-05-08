@@ -83,6 +83,7 @@ class Game():
             self.in_secret = 1
             #update dash
             self.dashes = Game.update_dashes(self,self._secret_word, self.dashes, guess)
+            self.player_score += 1
         else:
             self.wrong_count += 1
             self.guesses_left -= 1

@@ -60,9 +60,10 @@ class Game():
             =========""")
 
      def check_letter(self, isinserver, guess):
-          if isinserver and len(guess) == 1:
-            self.letter_storage.append(guess)
-            return 0
+          if isinserver:
+               if len(guess) == 1:
+                    self.letter_storage.append(guess)
+               return 0
           elif len(guess) == 1:
                print("Sorry, you're already guessed this letter!")
           return 1

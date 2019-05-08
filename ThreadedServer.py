@@ -19,7 +19,7 @@ class SingleTCPHandler(socketserver.BaseRequestHandler):
         while 1:
             print("{} | Secret word is: {}".format(cur_thread.name ,game._secret_word))
 
-            while game.guesses_left > 0 and not game.dashes == game._secret_word:
+            while game.guesses_left > 0 and not game.dashes.lower() == game._secret_word.lower():
                 self.request.sendall(bytes("running", 'utf-8')) #send back game status
                 time.sleep(0.1)
                 #game loop

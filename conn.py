@@ -73,11 +73,11 @@ if __name__ == "__main__":
                     #check_letter
                     guessinserver = int(usr.get_message())
                     if game.check_letter(guessinserver, guess): # send boolean if guess is in server to client
-                        continue
-
-                    #check if in secret word
-                    is_in_secret = usr.get_message()
-                    game.check_guess(int(is_in_secret), guess)
+                        pass
+                    else:
+                        #check if in secret word
+                        is_in_secret = usr.get_message()
+                        game.check_guess(int(is_in_secret), guess)
                 continue
 
             elif is_end == "lose":

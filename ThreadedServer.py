@@ -73,10 +73,13 @@ class SingleTCPHandler(socketserver.BaseRequestHandler):
             self.request.sendall(bytes(game._secret_word, 'utf-8')) #send back secret word
             time.sleep(0.1)
 
-            # call DBs functions to show scoreboard
+            # Game end | call DBs functions to show scoreboard
+            scoretxt = "Your score is {} points.".format(str(game.player_score))
+            self.request.sendall(bytes(scoretxt, 'utf-8'))
             game.update_score(game.player_name, game.player_score)
             board = game.show_scoreboard()
             self.request.sendall(bytes(board, 'utf-8'))
+            time.sleep(0.1)
             print("{} | Printed scoreboard in client".format(cur_thread.name))
             time.sleep(0.1)
 

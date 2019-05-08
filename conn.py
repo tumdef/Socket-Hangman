@@ -76,6 +76,8 @@ if __name__ == "__main__":
                 print("Congrats! You win. The word was: {}".format(secret_word))
             
             #end game
+            # get score of current round
+            print("{}".format(usr.get_message()))
             # get scoreboard
             print("{}".format(usr.get_message()))
             while 1:

@@ -50,6 +50,7 @@ if __name__ == "__main__":
                 guess = input("Guess: ").lower()
                 usr.send_message(guess) # get guess and send to server
                 if guess == "reset":
+                    game.reset()
                     continue
 
                 #check_letter
@@ -63,11 +64,12 @@ if __name__ == "__main__":
                 #check if in secret word
                 is_in_secret = usr.get_message()
                 game.check_guess(int(is_in_secret), guess)
+                continue
 
             elif is_end == "lose":
                 secret_word = usr.get_message()
                 print("You lose. The word was: {}".format(secret_word))
-                
+
             elif is_end == "win":
                 secret_word = usr.get_message()
                 print("Congrats! You win. The word was: {}".format(secret_word))

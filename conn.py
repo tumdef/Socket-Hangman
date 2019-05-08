@@ -49,6 +49,7 @@ if __name__ == "__main__":
 
                 guess = input("Guess: ").lower()
                 usr.send_message(guess) # get guess and send to server
+                # user want to reset
                 if guess == "reset":
                     game.reset()
                     continue
@@ -73,7 +74,13 @@ if __name__ == "__main__":
 
             elif is_end == "win":
                 secret_word = usr.get_message()
-                print("Congrats! You win. The word was: {}".format(secret_word))
+                if ans_type == "we":
+                    print("Congrats! You win. You just guessed the whole word and get extra score!", end="")
+                elif ans_type == "w":
+                    print("Congrats! You win. You just guessed the whole word! but did not get extra score :(", end="")
+                else:
+                    print("Congrats! You win.", end="")
+                print(" The word was: {}".format(secret_word))
             
             #end game
             # get score of current round

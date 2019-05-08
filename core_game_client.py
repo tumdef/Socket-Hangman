@@ -76,11 +76,7 @@ class Game():
           self.__init__()
 
      def chk_ans_type(self, ans_type):
-          if ans_type == "we":
-               print("Congrats! You win. You just guessed the whole word and get extra score!")
-               return 1
-          elif ans_type == "w":
-               print("Congrats! You win. You just guessed the whole word! but did not get extra score :(")
+          if ans_type == "we" or ans_type == "w":
                return 1
           return 0
 

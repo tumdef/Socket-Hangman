@@ -14,7 +14,8 @@ class client():
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.sock.connect(ADDR)
         print("connect to {}".format(ADDR))
-        print("connection established...")
+        print("connection established...\n")
+        client.welcome_message(self)
 
     def send_message(self, message):
         self.sock.sendall(bytes(message, 'utf-8'))
@@ -23,10 +24,21 @@ class client():
         received = str(self.sock.recv(1024), 'utf-8')
         return received
 
+    def welcome_message(self):
+        print("Welcome to Hangman game!")
+        print("while playing type 'reset' anytime to reset the game")
+        print("Enter your name to continue...")
+
 if __name__ == "__main__":
     usr = client()
     try:
-        name = input("Please enter your name: ")
+        while 1:
+            name = input("Please enter your name: ")
+            if name == "reset":
+                print("")
+                usr.welcome_message()
+                continue
+            break
         usr.send_message(name)
         game = core_game_client.Game() # hangman list from core_game_cli
         while 1:

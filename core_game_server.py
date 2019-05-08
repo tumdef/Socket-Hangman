@@ -83,15 +83,12 @@ class Game():
         if guess in self._secret_word:
             self.correct_cnt += 1
             self.in_secret = 1
-            print("The letter {} is in the secret word!".format(guess))
             #update dash
             self.dashes = Game.update_dashes(self,self._secret_word, self.dashes, guess)
         else:
             self.wrong_count += 1
             self.guesses_left -= 1
             self.in_secret = 0
-            print("The letter {} is not in the secret word!".format(guess))
         # add guessed letter to letter_storage list
         Game.check_letter(self, guess)
         return self.in_secret
-        #print("{}\n".format(self._hangman[self.wrong_count]))

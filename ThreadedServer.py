@@ -21,17 +21,21 @@ class SingleTCPHandler(socketserver.BaseRequestHandler):
 
             while game.guesses_left > 0 and not game.dashes == game._secret_word:
                 #game loop
-                self.request.sendall(bytes(str(game.wrong_count), 'utf-8'))
+
+                self.request.sendall(bytes(str(game.wrong_count), 'utf-8')) # send wrong_count
                 time.sleep(0.1)
-                self.request.sendall(bytes(game.dashes, 'utf-8'))
+
+                self.request.sendall(bytes(game.dashes, 'utf-8')) # send dashed
                 time.sleep(0.1)
-                # TODO: best score from db
-                self.request.sendall(bytes(str(game.guesses_left), 'utf-8'))
+                
+                self.request.sendall(bytes(str(game.guesses_left), 'utf-8')) # send guess_left
                 time.sleep(0.1)
+
                 guess = str(self.request.recv(1024), 'utf-8') # get guess from conn
                 if not guess: break
                 print("{} | Guess: {}".format(cur_thread.name ,guess))
                 if guess == "reset": break
+
                 if game.check_letter(guess):
                     self.request.sendall(bytes('1', 'utf-8')) # never guess this letter
                     time.sleep(0.1)
@@ -77,7 +81,6 @@ class SingleTCPHandler(socketserver.BaseRequestHandler):
             self.request.sendall(bytes(board, 'utf-8'))
             time.sleep(0.1)
 
-            self.request.sendall(bytes("rox", 'utf-8')) # reset or exit
             end_ans = str(self.request.recv(1024), 'utf-8')
             if end_ans == "reset":
                 game.reset()

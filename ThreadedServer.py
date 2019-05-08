@@ -20,6 +20,8 @@ class SingleTCPHandler(socketserver.BaseRequestHandler):
             print("{} | Secret word is: {}".format(cur_thread.name ,game._secret_word))
 
             while game.guesses_left > 0 and not game.dashes == game._secret_word:
+                self.request.sendall(bytes("running", 'utf-8')) #send back game status
+                time.sleep(0.1)
                 #game loop
 
                 self.request.sendall(bytes(str(game.wrong_count), 'utf-8')) # send wrong_count
@@ -39,11 +41,13 @@ class SingleTCPHandler(socketserver.BaseRequestHandler):
                 if game.check_letter(guess):
                     self.request.sendall(bytes('1', 'utf-8')) # never guess this letter
                     time.sleep(0.1)
+
                     is_whole = game.is_whole(guess)
                     print("{} | ans type: {}".format(cur_thread.name, is_whole))
                     self.request.sendall(bytes(str(is_whole), 'utf-8')) # send type of guess
                     time.sleep(0.1)
                     if is_whole == 'we' or is_whole == 'w': break
+
                     elif is_whole == 'single':
                         is_in_secret = game.check_guess(guess)
                         print(is_in_secret)
@@ -55,8 +59,7 @@ class SingleTCPHandler(socketserver.BaseRequestHandler):
                 else:
                     self.request.sendall(bytes('0', 'utf-8'))
                     time.sleep(0.1) #send back error message
-                self.request.sendall(bytes("running", 'utf-8')) #send back game status
-                time.sleep(0.1)
+
             #end
             if guess == "reset":
                 game.reset()
@@ -78,7 +81,6 @@ class SingleTCPHandler(socketserver.BaseRequestHandler):
             board = game.show_scoreboard()
             self.request.sendall(bytes(board, 'utf-8'))
             print("{} | Printed scoreboard in client".format(cur_thread.name))
-            self.request.sendall(bytes(board, 'utf-8'))
             time.sleep(0.1)
 
             end_ans = str(self.request.recv(1024), 'utf-8')

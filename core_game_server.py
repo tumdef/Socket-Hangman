@@ -51,8 +51,6 @@ class Game():
         elif Game.is_wholeword(self, guess):
             self.correct_cnt = len(Counter(self._secret_word).keys())
             return 'w'
-        elif len(guess) > 1:
-            return 0
         else:
             return 'single'
 

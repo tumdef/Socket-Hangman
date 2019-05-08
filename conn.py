@@ -52,14 +52,15 @@ if __name__ == "__main__":
                 if guess == "reset":
                     game.reset()
                     continue
-
-                #check_letter
-                guessinserver = int(usr.get_message())
-                game.check_letter(guessinserver, guess) # send boolean if guess is in server to client
-
+                    
                 #check for answer type
                 ans_type = usr.get_message()
                 if game.chk_ans_type(ans_type): break
+
+                #check_letter
+                guessinserver = int(usr.get_message())
+                if game.check_letter(guessinserver, guess): # send boolean if guess is in server to client
+                    continue
 
                 #check if in secret word
                 is_in_secret = usr.get_message()

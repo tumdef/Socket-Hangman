@@ -53,10 +53,7 @@ class SingleTCPHandler(socketserver.BaseRequestHandler):
                         print(is_in_secret)
                         self.request.sendall(bytes(str(is_in_secret), 'utf-8')) # send guess right or wrong
                         time.sleep(0.1)
-                    else:
-                        self.request.sendall(bytes('0', 'utf-8'))
-                        time.sleep(0.1) #send back error message
-                else:
+                else:   
                     self.request.sendall(bytes('0', 'utf-8'))
                     time.sleep(0.1) #send back error message
 

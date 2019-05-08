@@ -78,7 +78,7 @@ class Game():
 
     def check_guess(self, guess):
         # the guess is in the secret word
-        if guess in self._secret_word:
+        if len(guess) == 1 and guess in self._secret_word:
             self.correct_cnt += 1
             self.in_secret = 1
             #update dash
@@ -88,5 +88,5 @@ class Game():
             self.guesses_left -= 1
             self.in_secret = 0
         # add guessed letter to letter_storage list
-        Game.check_letter(self, guess)
+        if len(guess) == 1: Game.check_letter(self, guess)
         return self.in_secret

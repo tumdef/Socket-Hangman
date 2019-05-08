@@ -8,19 +8,26 @@ class Game():
     def __init__(self, name):
         self.player_name = name
         self.player_score = 0
-        self._generate = random.randint(1, 734)
-        self._secret_word = linecache.getline('words.txt', self._generate)[:-1]
-        self.dashes = "-" * len(self._secret_word)
+        self._generate = random.randint(1, 801)
+        self._secret_word = linecache.getline('movies.txt', self._generate)[:-1]
+        self.dashes = "_" * len(self._secret_word)
+        Game.secret_exception(self,self._secret_word)
         self.guesses_left = 6
         self.wrong_count = 0
         self.correct_cnt = 0
         self.letter_storage = []
+
+    def secret_exception(self, secw):
+        exaplhabet = ["-","'","(",")","/",":","!","?",'"',",","&","."," "]
+        for i in range(len(exaplhabet)):
+            if exaplhabet[i] in secw:
+                self.dashes = Game.update_dashes(self,self._secret_word, self.dashes, exaplhabet[i])
         
     def update_dashes(self, secret, cur_dash, rec_guess):
         self.result = ""
 
         for i in range(len(secret)):
-            if secret[i] == rec_guess:
+            if secret[i].lower() == rec_guess.lower():
                 self.result = self.result + rec_guess # Adds guess to string if guess is correctly
 
             else:
@@ -39,10 +46,10 @@ class Game():
         return 0
     
     def is_wholeword(self, guess):
-        return guess == self._secret_word
+        return guess.lower() == self._secret_word.lower()
 
     def get_dashes(self):
-        return Counter(self.dashes)["-"]
+        return Counter(self.dashes)["_"]
 
     def is_whole(self, guess):
         if  Game.is_wholeword(self, guess) and (Game.get_dashes(self) >= len(self._secret_word)//2):
@@ -78,7 +85,7 @@ class Game():
 
     def check_guess(self, guess):
         # the guess is in the secret word
-        if len(guess) == 1 and guess in self._secret_word:
+        if len(guess) == 1 and guess.lower() in self._secret_word.lower():
             self.correct_cnt += 1
             self.in_secret = 1
             # update dash

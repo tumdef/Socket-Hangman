@@ -51,26 +51,30 @@ class SingleTCPHandler(socketserver.BaseRequestHandler):
                 else:
                     self.request.sendall(bytes('0', 'utf-8'))
                     time.sleep(0.1) #send back error message
+                self.request.sendall(bytes("running", 'utf-8')) #send back game status
+                time.sleep(0.1)
             #end
             if guess == "reset":
                 game.reset()
                 continue
             # User loses
-            if self.guesses_left < 1:
-                print("You lose. The word was: " + str(self._secret_word))
+            if game.guesses_left < 1:
+                self.request.sendall(bytes("lose", 'utf-8')) #send back game status
+                time.sleep(0.1)
             # User wins
             else:
-                print("Congrats! You win. The word was: " + str(self._secret_word))
-                if self.best_left < self.guesses_left:
-                    self.best_left = self.guesses_left
-                    print("Congrats! You got the new best. The best is: " + str(self.best_left))
+                self.request.sendall(bytes("win", 'utf-8')) #send back game status
+                time.sleep(0.1)
+
+            self.request.sendall(bytes(game._secret_word, 'utf-8')) #send back secret word
+            time.sleep(0.1)
 
             # call DBs functions to show scoreboard
             game.update_score(game.player_name, game.player_score)
             board = game.show_scoreboard()
             self.request.sendall(bytes(board, 'utf-8'))
             print("{} | Printed scoreboard in client".format(cur_thread.name))
-            # self.request.sendall(bytes(board, 'utf-8'))
+            self.request.sendall(bytes(board, 'utf-8'))
             time.sleep(0.1)
 
             self.request.sendall(bytes("rox", 'utf-8')) # reset or exit

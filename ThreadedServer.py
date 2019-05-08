@@ -38,24 +38,23 @@ class SingleTCPHandler(socketserver.BaseRequestHandler):
                 print("{} | Guess: {}".format(cur_thread.name ,guess))
                 if guess == "reset": break
 
-                if game.check_letter(guess):
-                    self.request.sendall(bytes('1', 'utf-8')) # never guess this letter
-                    time.sleep(0.1)
-
-                    is_whole = game.is_whole(guess)
-                    print("{} | ans type: {}".format(cur_thread.name, is_whole))
-                    self.request.sendall(bytes(str(is_whole), 'utf-8')) # send type of guess
-                    time.sleep(0.1)
-                    if is_whole == 'we' or is_whole == 'w': break
-
-                    elif is_whole == 'single':
+                is_whole = game.is_whole(guess)
+                print("{} | ans type: {}".format(cur_thread.name, is_whole))
+                self.request.sendall(bytes(str(is_whole), 'utf-8')) # send type of guess
+                time.sleep(0.1)
+                if is_whole == 'we' or is_whole == 'w': break
+                elif is_whole == 'single':
+                    if game.check_letter(guess):
+                        self.request.sendall(bytes('1', 'utf-8')) # never guess this letter
+                        time.sleep(0.1)
+                        time.sleep(0.1) #send back error message
                         is_in_secret = game.check_guess(guess)
                         print(is_in_secret)
                         self.request.sendall(bytes(str(is_in_secret), 'utf-8')) # send guess right or wrong
                         time.sleep(0.1)
-                else:   
-                    self.request.sendall(bytes('0', 'utf-8'))
-                    time.sleep(0.1) #send back error message
+                    else:   
+                        self.request.sendall(bytes('0', 'utf-8'))
+                        time.sleep(0.1)
 
             #end
             if guess == "reset":
@@ -73,13 +72,10 @@ class SingleTCPHandler(socketserver.BaseRequestHandler):
             self.request.sendall(bytes(game._secret_word, 'utf-8')) #send back secret word
             time.sleep(0.1)
 
-            # Game end | call DBs functions to show scoreboard
-            scoretxt = "Your score is {} points.".format(str(game.player_score))
-            self.request.sendall(bytes(scoretxt, 'utf-8'))
+            # call DBs functions to show scoreboard
             game.update_score(game.player_name, game.player_score)
             board = game.show_scoreboard()
             self.request.sendall(bytes(board, 'utf-8'))
-            time.sleep(0.1)
             print("{} | Printed scoreboard in client".format(cur_thread.name))
             time.sleep(0.1)
 

@@ -46,7 +46,7 @@ class Game():
 
     def is_whole(self, guess):
         if  Game.is_wholeword(self, guess) and (Game.get_dashes(self) >= len(self._secret_word)//2):
-            self.player_score =  len(self._secret_word)
+            self.player_score = len(self._secret_word)
             return 'we'
         elif Game.is_wholeword(self, guess):
             self.correct_cnt = len(Counter(self._secret_word).keys())
@@ -81,8 +81,9 @@ class Game():
         if len(guess) == 1 and guess in self._secret_word:
             self.correct_cnt += 1
             self.in_secret = 1
-            #update dash
+            # update dash
             self.dashes = Game.update_dashes(self,self._secret_word, self.dashes, guess)
+            # update score
             self.player_score += 1
         else:
             self.wrong_count += 1
